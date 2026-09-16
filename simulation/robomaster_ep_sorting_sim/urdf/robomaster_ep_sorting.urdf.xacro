@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robomaster_ep">
+  <xacro:include filename="$(find robomaster_description)/urdf/base.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/extension.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/intelligent_controller.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/arm.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/camera.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/gripper.urdf.xacro"/>
+
+  <xacro:base tf_prefix=""/>
+  <xacro:extension tf_prefix="" use_rear_extension="true"/>
+  <xacro:intelligent_controller tf_prefix="" mount="extension"/>
+  <xacro:arm tf_prefix=""/>
+  <xacro:camera tf_prefix="" mount="arm" camera_yaw="0.0"/>
+  <xacro:gripper tf_prefix=""/>
+
+  <!-- The base is deliberately not fixed to world.  The task node moves the
+       model through collision-safe staging poses to demonstrate backing and
+       left/right turns without adding a second chassis controller. -->
+  <ros2_control name="GazeboSimSystem" type="system">
+    <hardware><plugin>gz_ros2_control/GazeboSimSystem</plugin></hardware>
+
+    <joint name="arm_1_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">-0.094634</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="rod_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.016796</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="rod_3_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">-0.111429</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="arm_2_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.111429</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="endpoint_bracket_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">-0.016796</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="rod_1_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.016796</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="rod_2_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">-0.094634</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="triangle_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.094634</param></state_interface><state_interface name="velocity"/></joint>
+
+    <joint name="gripper_m_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="left_gripper_joint_1"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="left_gripper_joint_2"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="left_gripper_joint_4"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="left_gripper_joint_5"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="left_gripper_joint_6"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="left_gripper_joint_7"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="right_gripper_joint_1"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="right_gripper_joint_2"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="right_gripper_joint_4"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="right_gripper_joint_5"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="right_gripper_joint_6"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="right_gripper_joint_7"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <robot_param>robot_description</robot_param>
+      <robot_param_node>robot_state_publisher</robot_param_node>
+      <parameters>$(find robomaster_ep_sorting_sim)/config/controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+</robot>
