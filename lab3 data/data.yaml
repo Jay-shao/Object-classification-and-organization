@@ -1,0 +1,15 @@
+path: C:/Users/21461/Desktop/lab3数据
+
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 2
+names: ['bottle', 'box']
+
+roboflow:
+  workspace: jayabc31-gmail-com
+  project: water-bottle-and-box
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/jayabc31-gmail-com/water-bottle-and-box/dataset/1
